@@ -62,7 +62,7 @@ function get_chords(base_note, type)
             
             for (var j = 0; j < 3; j++)
             {
-                chord_notes.push( _notes[(base_note_index + _minor_harmonic_scale_notes[(i + _triad_chord[j]) % 8]) % 12] )
+                chord_notes.push( _notes[(base_note_index + _minor_harmonic_scale_notes[(i + _triad_chord[j]) % 7]) % 12] )
             }
 
         }

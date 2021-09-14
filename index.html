@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="description" content="">
+        <meta name="author" content="">
+
+        <!-- Bootstrap core CSS -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+        <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+        <script src="https://use.fontawesome.com/19afbf8bbb.js"></script>
+        
+        <script src="script.js"></script>
+    </head>
+    <body style="margin-left: 20%; margin-top:10%">
+        <select id="scale_name">
+        <option value="C" selected="selected">C</option>
+        <option value="C#">C#</option>
+        <option value="D">D</option>
+        <option value="D#">D#</option>
+        <option value="E">E</option>
+        <option value="F">F</option>
+        <option value="F#">F#</option>
+        <option value="G">G</option>
+        <option value="G#">G#</option>
+        <option value="A">A</option>
+        <option value="A#">A#</option>
+        <option value="B">B</option>
+        </select>
+
+        <select id="scale_type">
+        <option value="minor">Minor</option>
+        <option value="major" selected="selected">Major</option>
+        </select>
+        <button onClick="calculate()">Calculate</button>
+        <br>
+        <br>
+        <div id = "test"></div>
+
+    </body>
+
+    <script>
+        function calculate(){
+            document.getElementById("test").innerHTML = ""
+
+            var scale_name = document.getElementById("scale_name").value;
+            var scale_type = document.getElementById("scale_type").value;
+            
+            document.getElementById("test").innerHTML += "<h2> Notes </h2>"
+            let notes = get_scale_notes(scale_name, scale_type)
+            let notes_alias = get_aliases(notes);
+
+            for (var i=0; i<8; i++)
+            {
+                if (notes[i] != notes_alias[i])
+                    document.getElementById("test").innerHTML += notes[i] + "/" + notes_alias[i];
+                else
+                    document.getElementById("test").innerHTML += notes[i];
+                
+                if (i!=7)
+                    document.getElementById("test").innerHTML += ", ";
+
+            }
+            document.getElementById("test").innerHTML += "<br><br>"
+
+            document.getElementById("test").innerHTML += "<h3> Relative Scale </h3>"
+            if (scale_type=="major")
+                document.getElementById("test").innerHTML += get_relative_minor_scale(scale_name) + "<br><br>";
+            else if (scale_type=="minor")
+                document.getElementById("test").innerHTML += get_relative_major_scale(scale_name) + "<br><br>";
+            
+            document.getElementById("test").innerHTML += "<h3> Chords </h3>"
+            let chords =  get_chords(scale_name, scale_type)
+            for (var i=0; i<7;i++)
+            {
+                document.getElementById("test").innerHTML += "<strong>" + Object.keys(chords[i]) + ": </strong>";
+             
+                document.getElementById("test").innerHTML += Object.values(chords[i]) + "<br>";
+            }
+
+        }
+    </script>
+</html>

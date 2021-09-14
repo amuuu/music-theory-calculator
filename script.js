@@ -59,15 +59,23 @@ function get_chords(base_note, type)
         {
             chord_type = _minor_harmonic_scale_chords[i]
             current_note = _notes[(base_note_index+_minor_harmonic_scale_notes[i])%12]
+            
+            for (var j = 0; j < 3; j++)
+            {
+                chord_notes.push( _notes[(base_note_index + _minor_harmonic_scale_notes[(i + _triad_chord[j]) % 8]) % 12] )
+            }
+
         }
         else if (type == "major")
         {
             chord_type = _major_scale_chords[i]
             current_note = _notes[(base_note_index+_major_scale_notes[i])%12]
-
+            for (var j = 0; j < 3; j++)
+            {
+                chord_notes.push( _notes[(base_note_index + _major_scale_notes[(i + _triad_chord[j]) % 7]) % 12] )
+            }
         }
-        for (var j = 0; j < 3; j++)
-            chord_notes.push(_notes[(base_note_index+i+_triad_chord[j])%12])
+        
 
         let chord_name = current_note + chord_type
         chords.push({[chord_name]: chord_notes})

@@ -14,81 +14,132 @@
         <script src="https://use.fontawesome.com/19afbf8bbb.js"></script>
         
         <script src="script.js"></script>
+
+        <style>
+            
+        @import url('https://fonts.googleapis.com/css2?family=Libre+Baskerville&display=swap');
+        .notice {
+            padding: 15px;
+            background-color: #fafafa;
+            border-left: 6px solid #7f7f84;
+            margin-bottom: 10px;
+            -webkit-box-shadow: 0 5px 8px -6px rgba(0,0,0,.2);
+            -moz-box-shadow: 0 5px 8px -6px rgba(0,0,0,.2);
+                    box-shadow: 0 5px 8px -6px rgba(0,0,0,.2);
+        }
+        .notice-sm {
+            padding: 10px;
+            font-size: 80%;
+        }
+        html,
+        body,.container {
+            height: 100%
+        }
+        body
+        {
+            font-family: 'Libre Baskerville', serif;
+            background-color:#E5E1E7;
+        }
+        </style>
     </head>
-    <body style="margin-left: 20%; margin-top:10%">
+    <body>
         
-        <h1> Simple Music Theory Calculator </h1><br>
+        <div class="container h-100 d-flex justify-content-center">
+            <div class="col my-auto" style="margin-top:3%">
+                <div class="row">
+                    <h1 class="text-center"> Simple Music Theory Calculator </h1><br>
+                </div>
+                <div class="row justify-content-center">
+                    <select id="scale_name" >
+                        <option value="C" selected="selected">C</option>
+                        <option value="C#">C#</option>
+                        <option value="D">D</option>
+                        <option value="D#">D#</option>
+                        <option value="E">E</option>
+                        <option value="F">F</option>
+                        <option value="F#">F#</option>
+                        <option value="G">G</option>
+                        <option value="G#">G#</option>
+                        <option value="A">A</option>
+                        <option value="A#">A#</option>
+                        <option value="B">B</option>
+                    </select>&nbsp;
+                    <select id="scale_type">
+                        <option value="minor">Minor</option>
+                        <option value="major" selected="selected">Major</option>
+                    </select>&nbsp;
+                    <button onClick="calculate()">Calculate</button>
+                </div>
 
-        <select id="scale_name">
-        <option value="C" selected="selected">C</option>
-        <option value="C#">C#</option>
-        <option value="D">D</option>
-        <option value="D#">D#</option>
-        <option value="E">E</option>
-        <option value="F">F</option>
-        <option value="F#">F#</option>
-        <option value="G">G</option>
-        <option value="G#">G#</option>
-        <option value="A">A</option>
-        <option value="A#">A#</option>
-        <option value="B">B</option>
-        </select>
+            </div>
 
-        <select id="scale_type">
-        <option value="minor">Minor</option>
-        <option value="major" selected="selected">Major</option>
-        </select>
-        <button onClick="calculate()">Calculate</button>
-        <br>
-        <br>
-        <div id = "test"></div>
+            <div class="col my-auto" style="margin-top:2%">
+                <div id = "content">
+                    
+                    <div class="notice">
+                        <h3>Notes: &nbsp;</h3> <span id="notes"></span>
+                    </div>
+                    <div class="notice">
+                        <h3>Relative Scale: &nbsp;</h3> <span id="relative-scale"></span>
+                    </div>
+                    <div class="notice">
+                        <h3>Chords: &nbsp;</h3> <span id="chords"></span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
 
     </body>
 
     <script>
         function calculate(){
-            document.getElementById("test").innerHTML = ""
+            document.getElementById("notes").innerHTML = ""
+            document.getElementById("relative-scale").innerHTML = ""
+            document.getElementById("chords").innerHTML = ""
 
             var scale_name = document.getElementById("scale_name").value;
             var scale_type = document.getElementById("scale_type").value;
             
-            document.getElementById("test").innerHTML += "<h2> Notes </h2>"
+
+
             let notes = get_scale_notes(scale_name, scale_type)
             let notes_alias = get_aliases(notes);
-
             for (var i=0; i<8; i++)
             {
                 if (notes[i] != notes_alias[i])
-                    document.getElementById("test").innerHTML += notes[i] + "/" + notes_alias[i];
+                    document.getElementById("notes").innerHTML += notes[i] + "/" + notes_alias[i];
                 else
-                    document.getElementById("test").innerHTML += notes[i];
+                    document.getElementById("notes").innerHTML += notes[i];
                 
                 if (i!=7)
-                    document.getElementById("test").innerHTML += ", ";
+                    document.getElementById("notes").innerHTML += "&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;";
 
             }
-            document.getElementById("test").innerHTML += "<br><br>"
+            document.getElementById("content").innerHTML += "<br><br>"
 
-            document.getElementById("test").innerHTML += "<h3> Relative Scale </h3>"
+
+
             if (scale_type=="major")
-                document.getElementById("test").innerHTML += get_relative_minor_scale(scale_name) + "<br><br>";
+                document.getElementById("relative-scale").innerHTML += get_relative_minor_scale(scale_name) ;
             else if (scale_type=="minor")
-                document.getElementById("test").innerHTML += get_relative_major_scale(scale_name) + "<br><br>";
+                document.getElementById("relative-scale").innerHTML += get_relative_major_scale(scale_name);
             
-            document.getElementById("test").innerHTML += "<h3> Chords </h3>"
-            let chords =  get_chords(scale_name, scale_type)
+
+
+                let chords =  get_chords(scale_name, scale_type)
             for (var i=0; i<7;i++)
             {
-                document.getElementById("test").innerHTML += "<strong>" + Object.keys(chords[i]) + ": </strong>";
+                document.getElementById("chords").innerHTML += "<strong>" + (i+1) + ". " + Object.keys(chords[i]) + ": </strong>";
                 
-                document.getElementById("test").innerHTML += Object.values(chords[i]);
+                document.getElementById("chords").innerHTML += Object.values(chords[i]);
 
                 if (i==4)
                 {
-                    document.getElementById("test").innerHTML += " (Dominant of Dominant: " + get_dominant_of_dominant(scale_name, scale_type) + "7)";
+                    document.getElementById("chords").innerHTML += " (Dominant of Dominant: " + get_dominant_of_dominant(scale_name, scale_type) + "7)";
 
                 }
-                document.getElementById("test").innerHTML += "<br>";
+                document.getElementById("chords").innerHTML += "<br>";
 
             }
 

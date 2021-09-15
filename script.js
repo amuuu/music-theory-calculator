@@ -100,3 +100,14 @@ function get_aliases(notes)
     }
     return aliases
 }
+
+
+function get_dominant_of_dominant(base_note, type)
+{
+    console.log(base_note + ", " + type)
+    let s = get_scale_notes(base_note, type)
+    let d_index = _notes.indexOf(s[4])
+    let d_s = get_chords(_notes[d_index], "major")[4]
+    console.log(d_index)
+    return Object.keys(get_chords(_notes[d_index], "major")[4]);
+}

@@ -80,8 +80,16 @@
             for (var i=0; i<7;i++)
             {
                 document.getElementById("test").innerHTML += "<strong>" + Object.keys(chords[i]) + ": </strong>";
-             
-                document.getElementById("test").innerHTML += Object.values(chords[i]) + "<br>";
+                
+                document.getElementById("test").innerHTML += Object.values(chords[i]);
+
+                if (i==4)
+                {
+                    document.getElementById("test").innerHTML += " (Dominant of Dominant: " + get_dominant_of_dominant(scale_name, scale_type) + "7)";
+
+                }
+                document.getElementById("test").innerHTML += "<br>";
+
             }
 
         }

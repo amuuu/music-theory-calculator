@@ -102,12 +102,29 @@ function get_aliases(notes)
 }
 
 
-function get_dominant_of_dominant(base_note, type)
+function get_fifth(base_note, type, index, is_up)
 {
-    console.log(base_note + ", " + type)
+    
+    // console.log(base_note + ", " + type)
+    // let s = get_scale_notes(base_note, type)
+    // let d_index = _notes.indexOf(s[index])
+    // let d_s = get_chords(_notes[d_index], "major")[index]
+
+    // console.log(d_index)
+    // return Object.keys(get_chords(_notes[d_index], "major")[index]);
+
     let s = get_scale_notes(base_note, type)
-    let d_index = _notes.indexOf(s[4])
-    let d_s = get_chords(_notes[d_index], "major")[4]
-    console.log(d_index)
-    return Object.keys(get_chords(_notes[d_index], "major")[4]);
+
+    let d_index = _notes.indexOf(s[index])
+
+    let f_index = -1
+    if (is_up) 
+        f_index = 4
+    else 
+        f_index = 3
+
+    let d_s = get_chords(_notes[d_index], type)[f_index]
+
+    //console.log(d_index)
+    return Object.keys(d_s);
 }

@@ -124,16 +124,34 @@
             
 
 
-                let chords =  get_chords(scale_name, scale_type)
+            let chords =  get_chords(scale_name, scale_type)
             for (var i=0; i<7;i++)
             {
-                document.getElementById("chords").innerHTML += "<strong>" + (i+1) + ". " + Object.keys(chords[i]) + ": </strong>";
+                document.getElementById("chords").innerHTML += "<strong>" + (i+1) + ". " + Object.keys(chords[i]) + ": </strong> &nbsp;";
                 
                 document.getElementById("chords").innerHTML += Object.values(chords[i]);
+                document.getElementById("chords").innerHTML += "&nbsp;" ;
 
                 if (i==4)
                 {
-                    document.getElementById("chords").innerHTML += " (Dominant of Dominant: " + get_dominant_of_dominant(scale_name, scale_type) + "7)";
+                    document.getElementById("chords").innerHTML += " (Dominant of Dominant: " + get_fifth(scale_name, scale_type, i, true) + "7)";
+                }
+                else
+                {
+                    document.getElementById("chords").innerHTML += " (" ;
+                    document.getElementById("chords").innerHTML += "5↓: " + get_fifth(scale_name, scale_type, i, false);
+                    document.getElementById("chords").innerHTML += ")" ;
+
+                    if (i!=0)
+                        document.getElementById("chords").innerHTML += "&nbsp;,&nbsp;";
+                    if (i!=0)
+                    {
+                        document.getElementById("chords").innerHTML += " (" ;
+                        document.getElementById("chords").innerHTML += "5↑: " + get_fifth(scale_name, scale_type, i, true);
+                        document.getElementById("chords").innerHTML += ")" ;
+
+                    }
+
 
                 }
                 document.getElementById("chords").innerHTML += "<br>";
